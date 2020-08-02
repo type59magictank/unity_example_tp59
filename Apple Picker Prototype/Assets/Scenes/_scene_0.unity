@@ -359,7 +359,11 @@ MonoBehaviour:
   leftAndRightEdge: 20
   chanceToChangeDirections: 0.02
   secondBetweenAppleDrop: 1
+<<<<<<< HEAD
 --- !u!1 &1384097577
+=======
+--- !u!1 &789777509
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -367,16 +371,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 1384097580}
   - component: {fileID: 1384097579}
   - component: {fileID: 1384097578}
   m_Layer: 0
   m_Name: EventSystem
+=======
+  - component: {fileID: 789777512}
+  - component: {fileID: 789777511}
+  m_Layer: 0
+  m_Name: scorecounter
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!114 &1384097578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,10 +410,15 @@ MonoBehaviour:
   m_ForceModuleActive: 0
 --- !u!114 &1384097579
 MonoBehaviour:
+=======
+--- !u!222 &789777511
+CanvasRenderer:
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1384097577}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -413,16 +430,27 @@ MonoBehaviour:
   m_DragThreshold: 10
 --- !u!4 &1384097580
 Transform:
+=======
+  m_GameObject: {fileID: 789777509}
+  m_CullTransparentMesh: 0
+--- !u!224 &789777512
+RectTransform:
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1384097577}
+=======
+  m_GameObject: {fileID: 789777509}
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1435247640
@@ -524,6 +552,15 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+=======
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
 --- !u!1 &1573957417
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +662,7 @@ MonoBehaviour:
   numBaskets: 3
   basketBottomY: -14
   basketSpacingY: 2
+<<<<<<< HEAD
 --- !u!1 &1582373864
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,6 +741,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582373864}
   m_CullTransparentMesh: 0
+=======
+>>>>>>> 4f2dcf795676012b462cfe9857bac33463917d8f
 --- !u!1 &1985916066
 GameObject:
   m_ObjectHideFlags: 0
