@@ -10,11 +10,12 @@ public class Highscore : MonoBehaviour
     //全局静态变量调用
     void Awake()
     {
-        if (PlayerPrefs.HasKey("ApplePickerHighScore"))
+        //把信息存储在计算机上
+        if (PlayerPrefs.HasKey("ApplePickerHighScore"))//判断是否已经存在
         {
             score = PlayerPrefs.GetInt("ApplePickerHighScore");
         }
-
+        //赋值
         PlayerPrefs.SetInt("ApplePickerHighScore", score);
     }
     // Start is called before the first frame update
