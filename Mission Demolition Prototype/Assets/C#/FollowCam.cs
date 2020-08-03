@@ -36,20 +36,39 @@ public class FollowCam : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (poi == null) return;
+        Vector3 destination;
 
-        Vector3 destination = poi.transform.position;
+        if (poi == null)
+        {
+            destination = Vector3.zero;
+        }
+        else
+        {
+            destination = poi.transform.position;
+
+            if (poi.tag == "Projectile")
+            {
+                if (poi.GetComponent<Rigidbody>().IsSleeping())
+                {
+                    poi = null;
+
+                    return;
+                }
+            }
+        }
         //兴趣点位置
         destination.x = Mathf.Max(0, destination.x);
         destination.y = Mathf.Max(0, destination.y);
         //限定xy最小值
-        this.GetComponent<Camera>().orthographicSize = destination.y + 10;
-        //设置使得地面始终在
+        
         destination = Vector3.Lerp(transform.position, destination, easing);
         //位置插值
         destination.z = camZ;
         transform.position = destination;
         //设置摄像机位置
+
+        this.GetComponent<Camera>().orthographicSize = destination.y + 10;
+        //设置使得地面始终在
     }
 
 }

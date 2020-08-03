@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
+    static public Slingshot S;
 
     public GameObject prefabProjectile;
     public float velocityMult = 4f;
@@ -53,11 +54,15 @@ public class Slingshot : MonoBehaviour
             projectile.GetComponent<Rigidbody>().velocity = -mouseDelta * velocityMult;
             FollowCam.S.poi = projectile;
             projectile = null;
+
+            MissionDemolition.ShotFired();//直接访问静态方法
         }
     }
 
     private void Awake()
     {
+        S = this;
+
         Transform launchPointTrans = transform.Find("LaunchPoint");
         launchPoint = launchPointTrans.gameObject;
         launchPoint.SetActive(false);
