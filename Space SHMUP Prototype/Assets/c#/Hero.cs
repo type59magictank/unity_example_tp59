@@ -6,15 +6,20 @@ public class Hero : MonoBehaviour
 {
     static public Hero S;
 
+    public float gameRestartDelay = 2f;
     public float speed = 30;
     public float rollMult = -45;
     public float pitchMult = 30;
 
-    public float shieldLevel = 1;
+    [SerializeField]
+    private float _shieldLevel = 1;
 
     public bool _____________________________;
 
     public Bounds bounds;
+
+    public delegate void WeaponFireDelegate();//创建委托类型（函数授权
+    public WeaponFireDelegate fireDelegate;
 
     private void Awake()
     {
@@ -54,5 +59,68 @@ public class Hero : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * pitchMult, 0);
         //使飞船旋转角度
+
+        if (Input.GetAxis("Jump") == 1 && fireDelegate != null)
+        {
+            fireDelegate();
+        }
     }
+
+    public GameObject lastTiggerGo = null;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GameObject go = Utils.FindTaggedParent(other.gameObject);
+
+        if (go != null)
+        {
+            if (go == lastTiggerGo)
+            {
+                return;
+            }
+            //确保触发对象与之前不同
+            lastTiggerGo = go;
+
+            if (go.tag == "Enemy")
+            {
+                shieldLevel -= 1;
+
+                Destroy(go);
+
+            }
+            else
+            {
+                print("触发碰撞事件：" + go.name);
+
+            }
+
+        }
+        else
+        {
+            print("触发碰撞事件：" + other.gameObject.name);
+
+        }
+        //print("触发碰撞事件：" + other.gameObject.name);
+    }
+
+    public float shieldLevel
+    {
+        get
+        {
+            return (_shieldLevel);
+        }
+        set
+        {
+            _shieldLevel = Mathf.Min(value, 4);//重复赋值堆栈溢出meiyou_
+
+            if (value < 0)
+            {
+                Destroy(this.gameObject);
+
+                Main.S.DelayedRestart(gameRestartDelay);
+
+            }
+        }
+    }
+
 }

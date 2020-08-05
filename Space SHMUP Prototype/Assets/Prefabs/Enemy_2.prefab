@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6975267686503296479}
   - component: {fileID: 6975267686503296478}
   - component: {fileID: 6975267686503296477}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cockpit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 6975267686587769810}
   - component: {fileID: 6975267686587769809}
   - component: {fileID: 6975267686587769808}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,9 +196,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6975267686626446146}
   - component: {fileID: 6975267686626446147}
-  m_Layer: 0
+  - component: {fileID: 4156699610230071285}
+  m_Layer: 9
   m_Name: Enemy_2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,6 +237,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &4156699610230071285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975267686626446145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c8575f943dcfc649a42a3351495a4d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  fireRate: 0.3
+  health: 10
+  score: 100
+  _____________________________: 0
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  boundsCenterOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &6975267688060937418
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,7 +270,7 @@ GameObject:
   - component: {fileID: 6975267688060937422}
   - component: {fileID: 6975267688060937421}
   - component: {fileID: 6975267688060937420}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}

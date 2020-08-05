@@ -226,4 +226,27 @@ public class Utils : MonoBehaviour
 
     }
 
+    //递归方法寻找parent树找到自定义标签
+    public static GameObject FindTaggedParent(GameObject go)
+    {
+        if (go.tag != "Untagged")
+        {
+            return (go);
+        }
+
+        if (go.transform.parent == null)
+        {
+            return (null);
+
+        }
+
+        return (FindTaggedParent(go.transform.parent.gameObject));
+
+    }
+
+    public static GameObject FindTaggedParent(Transform t)
+    {
+        return (FindTaggedParent(t.gameObject));
+    }
+
 }
