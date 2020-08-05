@@ -75,7 +75,7 @@ public class Utils : MonoBehaviour
 
     public static void SetCameraBounds(Camera cam=null)
     {
-        if (cam = null) cam = Camera.main;
+        if (cam == null) cam = Camera.main;
 
         Vector3 topLeft = new Vector3(0, 0, 0);
         Vector3 bottomRight = new Vector3(Screen.width, Screen.height, 0);
@@ -184,9 +184,45 @@ public class Utils : MonoBehaviour
 
             case BoundsTest.offScreen:
                 {
-                    bool cMin=bigB
+                    bool cMin = bigB.Contains(lilB.min);
+                    bool cMax = bigB.Contains(lilB.max);
+
+                    if (cMin || cMax)
+                    {
+                        return(Vector3.zero);
+                    }
+
+                    if (lilB.min.x > bigB.max.x)
+                    {
+                        off.x = lilB.min.x - bigB.max.x;
+                    }else if (lilB.max.x < bigB.min.x)
+                    {
+                        off.x = lilB.max.x - bigB.min.x;
+                    }
+
+                    if (lilB.min.y > bigB.max.y)
+                    {
+                        off.y = lilB.min.y - bigB.max.y;
+                    }
+                    else if (lilB.max.y < bigB.min.y)
+                    {
+                        off.y = lilB.max.y - bigB.min.y;
+                    }
+
+                    if (lilB.min.z > bigB.max.z)
+                    {
+                        off.z = lilB.min.z - bigB.max.z;
+                    }
+                    else if (lilB.max.z < bigB.min.z)
+                    {
+                        off.z = lilB.max.z - bigB.min.z;
+                    }
+
                 }
+                return (off);
         }
+
+        return (Vector3.zero);
 
     }
 

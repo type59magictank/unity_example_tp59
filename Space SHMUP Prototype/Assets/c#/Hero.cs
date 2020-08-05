@@ -39,9 +39,20 @@ public class Hero : MonoBehaviour
 
         Vector3 pos = transform.position;
         pos.x += xAxis * speed * Time.deltaTime;
-        pos.y += xAxis * speed * Time.deltaTime;
+        pos.y += yAxis * speed * Time.deltaTime;
         transform.position = pos;
 
+        bounds.center = transform.position;
+
+        Vector3 off = Utils.ScreenBoundsCheck(bounds, BoundsTest.onScreen);
+
+        if (off != Vector3.zero)
+        {
+            pos -= off;
+            transform.position = pos;
+        }
+
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * pitchMult, 0);
+        //使飞船旋转角度
     }
 }
