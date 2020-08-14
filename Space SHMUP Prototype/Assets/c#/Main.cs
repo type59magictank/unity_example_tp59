@@ -12,6 +12,12 @@ public class Main : MonoBehaviour
     public float enemySpawnPerSecond = 0.5f;
     public float enemySpawnPadding = 1.5f;//敌机位置间隔
     public WeaponDefinition[] weaponDefinitions;//在检视面板设置
+    public GameObject prefabPowerUp;
+    public WeaponType[] powerUpFrequency = new WeaponType[]
+    {
+        WeaponType.blaster,WeaponType.blaster,WeaponType.spread,WeaponType.shield
+    };
+
 
     public bool _______________________________;
 
@@ -90,6 +96,24 @@ public class Main : MonoBehaviour
     {
         Application.LoadLevel("scene_0");
 
+    }
+
+    public void ShipDestroyed(Enemy e)
+    {
+        if (Random.value <= e.powerUpDropChance)
+        {
+            //掉落道具概率
+            int ndx = Random.Range(0, powerUpFrequency.Length);
+            WeaponType puType = powerUpFrequency[ndx];
+
+            GameObject go = Instantiate(prefabPowerUp) as GameObject;
+            PowerUp pu = go.GetComponent<PowerUp>();
+            //生成道具
+            pu.SetType(puType);
+            //设置类型
+            pu.transform.position = e.transform.position;
+            //设置在敌机消灭位置
+        }
     }
 
 }

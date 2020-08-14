@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3683272912809054236}
   - component: {fileID: 3683272912809054237}
   - component: {fileID: 7398455753369011133}
+  - component: {fileID: -7380673329498662743}
   m_Layer: 9
   m_Name: Enemy_3
   m_TagString: Enemy
@@ -67,7 +68,38 @@ MonoBehaviour:
   fireRate: 0.3
   health: 10
   score: 100
+  showDamageForFrames: 2
+  powerUpDropChance: 1
   _____________________________: 0
+  originalColors: []
+  materials: []
+  remainingDamageFrames: 0
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  boundsCenterOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &-7380673329498662743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3683272912809054239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901977329789f0a4b833d785c88e1f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  fireRate: 0.3
+  health: 10
+  score: 100
+  showDamageForFrames: 2
+  powerUpDropChance: 1
+  _____________________________: 0
+  originalColors: []
+  materials: []
+  remainingDamageFrames: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}

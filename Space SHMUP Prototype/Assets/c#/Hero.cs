@@ -14,6 +14,8 @@ public class Hero : MonoBehaviour
     [SerializeField]
     private float _shieldLevel = 1;
 
+    public Weapon[] weapons;//武器字段
+
     public bool _____________________________;
 
     public Bounds bounds;
@@ -27,12 +29,14 @@ public class Hero : MonoBehaviour
 
         bounds = Utils.CombinBoundsOfChildren(this.gameObject);
 
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ClearWeapons();//重置武器
+        weapons[0].SetType(WeaponType.blaster);
     }
 
     // Update is called once per frame
@@ -84,9 +88,13 @@ public class Hero : MonoBehaviour
             if (go.tag == "Enemy")
             {
                 shieldLevel -= 1;
-
+                //对象是敌人将护盾-1
                 Destroy(go);
-
+                
+            }else if (go.tag == "PowerUp")
+            {
+                AbsorbPowerUp(go);
+                //护盾被升级道具触发
             }
             else
             {
@@ -111,7 +119,7 @@ public class Hero : MonoBehaviour
         }
         set
         {
-            _shieldLevel = Mathf.Min(value, 4);//重复赋值堆栈溢出meiyou_
+            _shieldLevel = Mathf.Min(value, 4);//出现过错误：重复赋值堆栈溢出meiyou_
 
             if (value < 0)
             {
@@ -123,4 +131,54 @@ public class Hero : MonoBehaviour
         }
     }
 
+    public void AbsorbPowerUp(GameObject go)
+    {
+        PowerUp pu = go.GetComponent<PowerUp>();
+
+        switch (pu.type)
+        {
+            case WeaponType.shield:
+                shieldLevel++;
+                break;
+            default:
+                if (pu.type == weapons[0].type)
+                {
+                    Weapon w = GetEmptyWeaponSlot();
+                    if (w != null)
+                    {
+                        w.SetType(pu.type);
+                        //把它赋值给pu
+                    }
+                }
+                else
+                {
+                    //不同武器类型
+                    ClearWeapons();
+                    weapons[0].SetType(pu.type);
+                }
+                break;
+        }
+        pu.AbsorbedBy(this.gameObject);
+
+    }
+
+    Weapon GetEmptyWeaponSlot()//找到空白武器位置
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i].type == WeaponType.none)
+            {
+                return (weapons[i]);
+            }
+        }
+        return (null);
+    }
+
+    void ClearWeapons()
+    {
+        foreach(Weapon w in weapons)
+        {
+            w.SetType(WeaponType.none);
+        }
+    }
 }

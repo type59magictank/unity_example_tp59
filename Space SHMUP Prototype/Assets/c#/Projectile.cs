@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
         }
         set
         {
-            
+            SetType(value);
         }
     }
 
@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
         this.GetComponent<Renderer>().material.color = def.projectileColor;
     }
 
-    void CheckOffscreen()
+    void CheckOffScreen()
     {
         if (Utils.ScreenBoundsCheck(this.GetComponent<Collider>().bounds, BoundsTest.offScreen) != Vector3.zero)
         {
