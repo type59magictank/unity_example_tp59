@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d5a8b7d6f61f443a9ccfdfddd99a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numBoids: 2000
+  numBoids: 200
   boidPrefab: {fileID: 2296174315147755457, guid: 0cab942e2fc3ca8439bda580c02d3d4d,
     type: 3}
   spawnRadius: 100
