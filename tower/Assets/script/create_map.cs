@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class create_map : MonoBehaviour
 {
+    static public create_map S;
     public GameObject cube_start;
     public GameObject cube_end;
     public GameObject map_;
-
+    public GameObject xiangdui;
 
     bool ____________________________________________;
 
     public List<List<int>> map_lei=new List<List<int>>();
+    public List<Vector3> map_start = new List<Vector3>();
+    public List<Vector3> map_end = new List<Vector3>();
+    public int m = new int();
+    public int n = new int();
 
+    void Awake()
+    {
+        S = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -55,23 +64,20 @@ public class create_map : MonoBehaviour
                 for (int k = 0; k < cube_num; k++)
                 {//根据数字，在一个单元格内生成cube
                     GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    cube.transform.position = new Vector3(-(map_row_max_cells / 2) + i, (float)0.5 + k, -(map_Collections.Count / 2) + j);
+                    cube.transform.position = new Vector3(-(map_row_max_cells / 2) + j, k*0.5f,- (map_Collections.Count / 2) + i);
                     cube.transform.parent = map_.transform;
-                    /*
-                     cube所处的坐标就是(-(map_row_max_cells / 2) + i, (float)0.5 + k, -(map_Collections.Count / 2) + j)
-                     */
                 }
                 
                 if (cube_num == -1)
                 {
                     Instantiate<GameObject>(cube_start, map_.transform);
-                    cube_start.transform.position = new Vector3(-(map_row_max_cells / 2) + i, (float)0.5 , -(map_Collections.Count / 2) + j);
+                    cube_start.transform.position = new Vector3(-(map_row_max_cells / 2) + j, 0 , -(map_Collections.Count / 2) + i);
                 }
 
                 if (cube_num == -2)
                 {
                     Instantiate<GameObject>(cube_end, map_.transform);
-                    cube_end.transform.position = new Vector3(-(map_row_max_cells / 2) + i, (float)0.5, -(map_Collections.Count / 2) + j);
+                    cube_end.transform.position = new Vector3(-(map_row_max_cells / 2) + j, 0 , -(map_Collections.Count / 2) + i);
                 }
                 
             }
@@ -79,6 +85,9 @@ public class create_map : MonoBehaviour
             map_lei.Add(map__row);
 
         }
+        xiangdui.transform.position = new Vector3(-(map_row_max_cells / 2), 0, -(map_Collections.Count / 2));
+        m = map_Collections.Count;
+        n = map_row_max_cells;
      }
 
         // Update is called once per frame
