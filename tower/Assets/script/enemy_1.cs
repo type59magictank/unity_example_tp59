@@ -9,7 +9,7 @@ public class enemy_1 : MonoBehaviour
     bool ____________________________________;
 
     List<List<string>> enemy_info = new List<List<string>>();
-    List<List<int>> map = new List<List<int>>();
+    int[,] map = new int[100,100];
     float health;
     float speed;
     int m, n;
@@ -22,7 +22,7 @@ public class enemy_1 : MonoBehaviour
     int[] w_r = new int[4] { 0, 0, 1, -1 };
     int[] w_l = new int[4] { 1, -1, 0, 0 };
     bool[,] map_bool=new bool[100,100];
-    bool find_way = false;
+    bool  find_way;
 
     bool finish_w = true;
     Vector3 go_way;
@@ -46,15 +46,23 @@ public class enemy_1 : MonoBehaviour
         now_w = new Vector3(int.Parse(enemy_info[3][2]) - 1, 0.5f, int.Parse(enemy_info[3][1]) - 1);
         xiangdui_ = create_map.S.xiangdui.transform.position;
         end_w= new Vector3(int.Parse(enemy_info[4][2]) - 1, 0.5f, int.Parse(enemy_info[4][1]) - 1);
+
+
+        map = create_map.S.map_lei;
+        n = create_map.S.m;
+        m = create_map.S.n;
+
         next_w = Findway_deep();
-        m = create_map.S.m;
-        n = create_map.S.n;
+
+        Debug.Log(map[0,0]+"   >"+map[10,3]);
+        Debug.Log( end_w.x+ " "+end_w.z );
     }
 
     // Update is called once per frame
     void Update()
     {
         map = create_map.S.map_lei;
+
         if (finish_w == true)
         {
             now_w = this.transform.position-xiangdui_;
@@ -70,9 +78,10 @@ public class enemy_1 : MonoBehaviour
             {
                 finish_w = true;
             }
+            //Debug.Log(go_way);
             //Debug.Log(Abs(this.transform.position.x - go_way.x)+ Abs(this.transform.position.x - go_way.x) < 0.01f);
         }
-
+        
     }
 
     float Abs(float x)
@@ -96,29 +105,40 @@ public class enemy_1 : MonoBehaviour
 
     Vector3 Search_deep(Vector3 now,int cen)
     {
-        //Debug.Log(now+ "   now");
-        int x = (int)now.x;
-        int y = (int)now.z;
-        for (int i = 0; i < 4; i++)
+        int x = (int)now.x+1;
+        int y = (int)now.z+1;
+        //Debug.Log(x+"  "+ y+" "+map[x,y]);
+        if (map[x, y] == -2)
         {
-            if (x + w_l[i]>=0&& x + w_l[i]<m&& y + w_r[i]>=0&& y + w_r[i]<n&&
-                map_bool[x+w_l[i],y+w_r[i]]==false&&map[x + w_l[i]][ y + w_r[i]] == 0)
+            Debug.Log(x + "  " + y + " " + map[x, y]);
+            find_way = true;
+            return Vector3.zero;
+        }
+        //else if (map[x, y] != 0) return Vector3.zero;
+            for (int i = 0; i < 4; i++)
+        {
+            if (x + w_l[i]>=0&& x + w_l[i]<m&& y + w_r[i]>=0&& y + w_r[i]<n&& map_bool[x+w_l[i],y+w_r[i]]==false)
             {
-                map_bool[x + w_l[i], y + w_r[i]] = true;
-                Search_deep(new Vector3(x + w_l[i], 0.5f, y + w_r[i]),cen+1);
-                map_bool[x + w_l[i], y + w_r[i]] = false;
-            }else if (x + w_l[i] >= 0 && x + w_l[i] < m && y + w_r[i] >= 0 && y + w_r[i] < n &&
-                map[x + w_l[i]][y + w_r[i]] == -2)
+                if (map[x + w_l[i],y + w_r[i]] == 0)
+                {
+                    map_bool[x + w_l[i], y + w_r[i]] = true;
+                    Search_deep(new Vector3(x + w_l[i], 0.5f, y + w_r[i]), cen + 1);
+                    map_bool[x + w_l[i], y + w_r[i]] = false;
+                }
+                if (find_way == true)
+                {
+                    return new Vector3(x + w_l[i], 0.5f, y + w_r[i]);
+                }
+            }
+            /*else if (x + w_l[i] >= 0 && x + w_l[i] < m && y + w_r[i] >= 0 && y + w_r[i] < n && map[x + w_l[i]][y + w_r[i]] == -2)
             {
                 find_way = true;
                 return Vector3.zero;
-            }
-            if (find_way == true && cen == 0)
-            {
-                return new Vector3(x + w_l[i], 0.5f, y + w_r[i]);
-            }
-            else return Vector3.zero;
+            }*/
+            //else return Vector3.zero;
+            
         }
+        //Debug.LogError("no way");
         return Vector3.zero;
     }
 

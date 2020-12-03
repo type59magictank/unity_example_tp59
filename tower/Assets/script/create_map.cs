@@ -12,9 +12,10 @@ public class create_map : MonoBehaviour
 
     bool ____________________________________________;
 
-    public List<List<int>> map_lei=new List<List<int>>();
+    public int[,] map_lei=new int[100,100];
     public List<Vector3> map_start = new List<Vector3>();
     public List<Vector3> map_end = new List<Vector3>();
+    public List<List<string>> map_Collections = new List<List<string>>();
     public int m = new int();
     public int n = new int();
 
@@ -28,7 +29,6 @@ public class create_map : MonoBehaviour
         TextAsset textAsset = (TextAsset)Resources.Load("map_1");
         string[] map_row_string = textAsset.text.Trim().Split('\n');
         int map_row_max_cells = 0;
-        List<List<string>> map_Collections = new List<List<string>>();
         for (int i = 0; i < map_row_string.Length; i++)
         {
             List<string> map_row = new List<string>(map_row_string[i].Split(','));
@@ -58,6 +58,7 @@ public class create_map : MonoBehaviour
             for (int j = 0; j < map_Collections[i].Count; j++)
             {//X方向的宽度就是容器一行中的最大的长度，也就是map.csv中每行最大长度
                 int cube_num = int.Parse(map_Collections[i][j]);//将每个单元格的数字转换成整形  
+                map_lei[j,i] = cube_num;
 
                 map__row.Add(cube_num);
 
@@ -82,12 +83,12 @@ public class create_map : MonoBehaviour
                 
             }
 
-            map_lei.Add(map__row);
+            //map_lei.Add(map__row);
 
         }
         xiangdui.transform.position = new Vector3(-(map_row_max_cells / 2), 0, -(map_Collections.Count / 2));
         m = map_Collections.Count;
-        n = map_row_max_cells;
+        n = map_Collections[1].Count;
      }
 
         // Update is called once per frame
