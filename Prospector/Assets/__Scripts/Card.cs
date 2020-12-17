@@ -5,17 +5,17 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [Header("Set dynamically")]
-    public string suit;
-    public int rank;
-    public Color color = Color.black;
-    public string colS = "Black";
+    public string suit;//花色
+    public int rank;//点数
+    public Color color = Color.black;//花色符号颜色
+    public string colS = "Black";//颜色
 
-    //
+    //存储所有decorator对象
     public List<GameObject> decoGOs = new List<GameObject>();
-
+    //存储所有pip对象
     public List<GameObject> pipGOs = new List<GameObject>();
 
-    public GameObject back;
+    public GameObject back;//纸牌背面
 
     public CardDefinition def;
 

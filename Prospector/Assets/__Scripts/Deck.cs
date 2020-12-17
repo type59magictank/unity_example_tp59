@@ -33,7 +33,26 @@ public class Deck : MonoBehaviour
 
     public void Inindeck(string deckXMLText)
     {
+        //创建锚点
+        if (GameObject.Find("_Deck") == null)
+        {
+            GameObject anchorGO = new GameObject("_Deck");
+            deckAnchor = anchorGO.transform;
+        }
+        //使用必要的sprite初始化字典
+        dictSuits = new Dictionary<string, Sprite>()
+        {
+            {"C",suitClub },
+            {"D",suitDiamond },
+            {"H",suitHeart },
+            {"S",suitSpade }
+        };
+
+
+        //读取
         ReadDeck(deckXMLText);
+
+        MakeCards();
     }
 
     public void ReadDeck(string deckXMLText)
@@ -113,6 +132,128 @@ public class Deck : MonoBehaviour
         }
 
     }
+
+    //搜索返回点数定义
+    public CardDefinition GetCardDefinitionByRank(int rnk)
+    {
+        foreach(CardDefinition cd in cardDefinitions)
+        {
+            if (cd.rank == rnk)
+            {
+                return (cd);
+            }
+        }
+        return (null);
+    }
+    
+    //创建card对象
+    public void MakeCards()
+    {
+        //创建纸牌名称
+        cardNames = new List<string>();
+        string[] letters = new string[] { "C", "D", "H", "S" };
+        foreach(string s in letters)
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                cardNames.Add(s + (i + 1));
+            }
+        }
+        //存储所有纸牌名称
+        cards = new List<Card>();
+
+        for (int i = 0; i < cardNames.Count; i++)
+        {
+
+            cards.Add(MakeCard(i));
+        }
+
+    }
+
+    //
+    private Card MakeCard(int cnum)
+    {
+
+        GameObject cgo = Instantiate(prefabCaard) as GameObject;
+
+        cgo.transform.parent = deckAnchor;
+        //获取card组件
+        Card card = cgo.GetComponent<Card>();
+
+        //排列纸牌
+        cgo.transform.localPosition = new Vector3((cnum % 13) * 3, cnum % 13 * 4, 0);//???
+
+        //设置基本属性
+        card.name = cardNames[cnum];
+        card.suit = card.name[0].ToString();
+        card.rank = int.Parse(card.name.Substring(1));
+        if (card.suit == "D" || card.suit == "H")
+        {
+            card.colS = "Red";
+            card.color = Color.red;
+        }
+
+        //提取纸牌定义
+        card.def = GetCardDefinitionByRank(card.rank);
+
+        AddDecorators(card);
+        
+
+        return card;
+
+    }
+
+    //helper
+    private Sprite tSp = null;
+    private GameObject tGO = null;
+    private SpriteRenderer tSR = null;
+
+    private void AddDecorators(Card card)
+    {
+        //添加角码
+        foreach(Decorator deco in decorators)
+        {
+            if (deco.type == "suit")
+            {
+                tGO = Instantiate(prefabSprite) as GameObject;
+                tSR = tGO.GetComponent<SpriteRenderer>();
+                //设置为正确花色
+                tSR.sprite = dictSuits[card.suit];
+
+            }
+            else
+            {
+                tGO = Instantiate(prefabSprite) as GameObject;
+                tSR = tGO.GetComponent<SpriteRenderer>();
+                tSR.sprite = rankSprites[card.rank];
+                tSR.color = card.color;
+            }
+
+            tSR.sortingOrder = 1;
+
+            tGO.transform.parent = card.transform;//????
+
+            tGO.transform.localPosition = deco.loc;
+
+            if (deco.flip)
+            {
+                //180度欧拉旋转使得卡牌翻转
+                tGO.transform.rotation = Quaternion.Euler(0, 0, 180);
+            }
+
+            if (deco.scale != 1)
+            {
+                tGO.transform.localScale = Vector3.one * deco.scale;
+            }
+
+            tGO.name = deco.type;
+
+            card.decoGOs.Add(tGO);
+        }
+
+        cards.Add(card);
+    }
+
 
     // Start is called before the first frame update
     void Start()
