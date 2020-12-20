@@ -19,6 +19,18 @@ public class Card : MonoBehaviour
 
     public CardDefinition def;
 
+    public bool faceUp
+    {
+        get
+        {
+            return (!back.activeSelf);
+        }
+        set
+        {
+            back.SetActive(!value);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

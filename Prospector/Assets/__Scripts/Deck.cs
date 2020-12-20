@@ -5,6 +5,7 @@ using UnityEngine;
 public class Deck : MonoBehaviour
 {
     [Header("Set in inspector")]
+    public bool startFaceUp = false;
     //花色
     public Sprite suitClub;
     public Sprite suitDiamond;
@@ -15,7 +16,7 @@ public class Deck : MonoBehaviour
     public Sprite cardBack;
     public Sprite cardBackGold;
     public Sprite cardFront;
-    public Sprite cardFrontGold;
+    public Sprite cardFron_tGOld;
 
     public GameObject prefabSprite;
     public GameObject prefabCaard;
@@ -181,7 +182,7 @@ public class Deck : MonoBehaviour
         Card card = cgo.GetComponent<Card>();
 
         //排列纸牌
-        cgo.transform.localPosition = new Vector3((cnum % 13) * 3, cnum % 13 * 4, 0);//???
+        cgo.transform.localPosition = new Vector3((cnum % 13) * 3, cnum / 13 * 4, 0);//???
 
         //设置基本属性
         card.name = cardNames[cnum];
@@ -197,16 +198,18 @@ public class Deck : MonoBehaviour
         card.def = GetCardDefinitionByRank(card.rank);
 
         AddDecorators(card);
-        
+        AddPips(card);
+        AddFace(card);
+        AddBack(card);
 
         return card;
 
     }
 
     //helper
-    private Sprite tSp = null;
-    private GameObject tGO = null;
-    private SpriteRenderer tSR = null;
+    private Sprite _tSp = null;
+    private GameObject _tGO = null;
+    private SpriteRenderer _tSR = null;
 
     private void AddDecorators(Card card)
     {
@@ -215,55 +218,151 @@ public class Deck : MonoBehaviour
         {
             if (deco.type == "suit")
             {
-                tGO = Instantiate(prefabSprite) as GameObject;
-                tSR = tGO.GetComponent<SpriteRenderer>();
+                _tGO = Instantiate(prefabSprite) as GameObject;
+                _tSR = _tGO.GetComponent<SpriteRenderer>();
                 //设置为正确花色
-                tSR.sprite = dictSuits[card.suit];
+                _tSR.sprite = dictSuits[card.suit];
 
             }
             else
             {
-                tGO = Instantiate(prefabSprite) as GameObject;
-                tSR = tGO.GetComponent<SpriteRenderer>();
-                tSR.sprite = rankSprites[card.rank];
-                tSR.color = card.color;
+                _tGO = Instantiate(prefabSprite) as GameObject;
+                _tSR = _tGO.GetComponent<SpriteRenderer>();
+                _tSR.sprite = rankSprites[card.rank];
+                _tSR.color = card.color;
             }
 
-            tSR.sortingOrder = 1;
+            _tSR.sortingOrder = 1;
 
-            tGO.transform.parent = card.transform;//????
+            _tGO.transform.parent = card.transform;//????
 
-            tGO.transform.localPosition = deco.loc;
+            _tGO.transform.localPosition = deco.loc;
 
             if (deco.flip)
             {
                 //180度欧拉旋转使得卡牌翻转
-                tGO.transform.rotation = Quaternion.Euler(0, 0, 180);
+                _tGO.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
 
             if (deco.scale != 1)
             {
-                tGO.transform.localScale = Vector3.one * deco.scale;
+                _tGO.transform.localScale = Vector3.one * deco.scale;
             }
 
-            tGO.name = deco.type;
+            _tGO.name = deco.type;
 
-            card.decoGOs.Add(tGO);
+            card.decoGOs.Add(_tGO);
         }
 
         cards.Add(card);
     }
 
+    private void AddPips(Card card)
+    {
+        foreach (Decorator pip in card.def.pips)
+        {
+            
+            _tGO = Instantiate(prefabSprite) as GameObject;
+            //设置父对象
+            _tGO.transform.SetParent(card.transform);
+            //初始位置xml文件数据设置
+            _tGO.transform.localPosition = pip.loc;
+            //旋转
+            if (pip.flip)
+            {
+                _tGO.transform.rotation = Quaternion.Euler(0, 0, 180);
+            }
+            //缩放
+            if (pip.scale != 1)
+            {
+                _tGO.transform.localScale = Vector3.one * pip.scale;
+            }
+            //设置名称
+            _tGO.name = "pip";
+            //获取渲染组件
+            _tSR = _tGO.GetComponent<SpriteRenderer>();
+            //设置正确花色
+            _tSR.sprite = dictSuits[card.suit];
+            //设置sortingOrder花色显示
+            _tSR.sortingOrder = 1;
+            //加入列表
+            card.pipGOs.Add(_tGO);
+        }
+    }
+
+    private void AddFace(Card card)
+    {
+        if (card.def.face == "")
+        {
+            return; //face不为空
+        }
+        _tGO = Instantiate(prefabSprite) as GameObject;
+        _tSR = _tGO.GetComponent<SpriteRenderer>();
+        //生成名称
+        _tSp = GetFace(card.def.face + card.suit);
+        _tSR.sprite = _tSp; //传出sprite
+        _tSR.sortingOrder = 1; //设置sortingOrder
+        _tGO.transform.SetParent(card.transform);
+        _tGO.transform.localPosition = Vector3.zero;
+        _tGO.name = "face";
+    }
+
+    private void AddBack(Card card)
+    {
+        // 添加纸牌背面
+        _tGO = Instantiate(prefabSprite) as GameObject;
+        _tSR = _tGO.GetComponent<SpriteRenderer>();
+
+        _tSR.sprite = cardBack;
+
+        _tGO.transform.SetParent(card.transform);
+        _tGO.transform.localPosition = Vector3.zero;
+        //背面sortingOrder值高于其他元素
+        _tSR.sortingOrder = 2;
+        _tGO.name = "back";
+        card.back = _tGO;
+        //默认的face-up值
+        card.faceUp = startFaceUp; //使用card的faceup属性
+    }
+
+    //查找正确花牌sprite
+    private Sprite GetFace(string faceS)
+    {
+        foreach (Sprite _tSP in faceSprites)
+        {
+            // 名称正确
+            if (_tSP.name == faceS)
+            {
+                // 返回正确sprite
+                return (_tSP);
+            }
+        }
+        //没有返回null
+        return (null);
+    }
+
+    //洗牌
+    static public void Shuffle(ref List<Card> oCards)//ref引用参数也会修改原始值
+    {
+        //存储顺序
+        List<Card> tCards = new List<Card>();
+        int ndx; //移动索引
+        tCards = new List<Card>(); //初始化list
+                                   // 原始list还有纸牌就循环
+        while (oCards.Count > 0)
+        {
+            //随机抽取纸牌索引
+            ndx = Random.Range(0, oCards.Count);
+            //添加到临时list
+            tCards.Add(oCards[ndx]);
+            //从原始list删除
+            oCards.RemoveAt(ndx);
+        }
+        //用新的临时list取代原始list
+        oCards = tCards;
+        //ref引用参数也会修改原始值
+    }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
