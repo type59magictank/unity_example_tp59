@@ -786,7 +786,7 @@ MonoBehaviour:
   keyRight: d
   keyA: left shift
   keyB: space
-  keyC: 
+  keyC: j
   keyD: 
   keyJRight: right
   keyJLeft: left
@@ -801,6 +801,8 @@ MonoBehaviour:
   run: 0
   jump: 0
   lastJump: 0
+  attack: 0
+  lastAttack: 0
   inputEnable: 1
 --- !u!1001 &1709138311
 PrefabInstance:

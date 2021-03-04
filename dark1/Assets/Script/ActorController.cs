@@ -46,7 +46,12 @@ public class ActorController : MonoBehaviour
         {
             anim.SetTrigger("jump");
         }
-        
+
+        if (pi.attack)
+        {
+            anim.SetTrigger("attack");
+        }
+
 
         if (pi.Dmag > 0.1f)
         {
@@ -125,4 +130,15 @@ public class ActorController : MonoBehaviour
         thrustVec = model.transform.forward * anim.GetFloat("jabVelocity")*jabMultiplier;
     }
 
+    public void OnAttack1hAEnter()
+    {
+        anim.SetLayerWeight(anim.GetLayerIndex("attack"), 1.0f);
+    }
+
+    public void OnAttackIdle()
+    {
+        anim.SetLayerWeight(anim.GetLayerIndex("attack"), 0);
+    }
+
+    
 }

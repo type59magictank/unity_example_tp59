@@ -36,7 +36,13 @@ public class PlayerInput : MonoBehaviour
     //trigger once signal
     public bool jump;
     public bool lastJump;
+
+    public bool attack;
+    public bool lastAttack;
     //double trigger
+
+
+
 
     [Header("---------others------------")]
 
@@ -94,6 +100,17 @@ public class PlayerInput : MonoBehaviour
             jump = false;
         }
         lastJump = newJump;
+
+        bool newAttack = Input.GetKey(keyC);
+        if (newAttack != lastAttack && newAttack == true)
+        {
+            attack = true;
+        }
+        else
+        {
+            attack = false;
+        }
+        lastAttack = newAttack;
 
     }
 
